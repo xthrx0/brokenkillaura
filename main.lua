@@ -6,17 +6,17 @@ local character = player.Character or player.CharacterAdded:Wait()
 local auraRadius = 10
 local function autoKill()
     if not character or not character:FindFirstChild("HumanoidRootPart") then return end
-    local zombiesFolder = workspace:FindFirstChild("zombies")
+    local zombiesFolder = workspace:FindFirstChild("Zombies")
     if zombiesFolder then
-        for _, agent in pairs(zombiesFolder:GetChildren()) do
-            if agent:IsA("Model") and agent:FindFirstChild("Humanoid") and agent:FindFirstChild("HumanoidRootPart") then
-                local humanoid = agent.Humanoid
-                local agentPosition = agent.HumanoidRootPart.Position
+        for _, Agent in pairs(zombiesFolder:GetChildren()) do
+            if Agent:IsA("Model") and Agent:FindFirstChild("Humanoid") and Agent:FindFirstChild("HumanoidRootPart") then
+                local humanoid = Agent.Humanoid
+                local agentPosition = Agent.HumanoidRootPart.Position
                 local distance = (character.HumanoidRootPart.Position - agentPosition).Magnitude
 
                 if distance <= auraRadius then
                     humanoid:TakeDamage(humanoid.Health)
-                    print("Auto-killed " .. agent.Name)
+                    print("Auto-killed " .. Agent.Name)
                 end
             end
         end
