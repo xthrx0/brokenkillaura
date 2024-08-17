@@ -9,6 +9,8 @@ local auraRadius = 10
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local GibRemote = Remotes:WaitForChild("Gib")
 
+print("Running")
+
 local function autoKill()
     if not character or not character:FindFirstChild("HumanoidRootPart") then return end
 
@@ -29,6 +31,8 @@ local function autoKill()
                         [5] = Agent.HumanoidRootPart.CFrame.LookVector
                     }
                     GibRemote:FireServer(unpack(args))
+
+                    print("Running")
                 end
             end
         end
