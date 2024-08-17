@@ -9,8 +9,6 @@ local auraRadius = 10
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local GibRemote = Remotes:WaitForChild("Gib")
 
-print("Running")
-
 local function autoKill()
     if not character or not character:FindFirstChild("HumanoidRootPart") then return end
 
@@ -24,15 +22,13 @@ local function autoKill()
 
                 if distance <= auraRadius then
                     local args = {
-                        [1] = player.Name,
-                        [2] = Agent,
-                        [3] = "Right Arm",
-                        [4] = agentPosition,
-                        [5] = Agent.HumanoidRootPart.CFrame.LookVector
+                        player.Name,
+                        Agent,
+                        "Right Arm",
+                        agentPosition,
+                        Agent.HumanoidRootPart.CFrame.LookVector
                     }
                     GibRemote:FireServer(unpack(args))
-
-                    print("Running")
                 end
             end
         end
