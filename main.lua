@@ -1,6 +1,6 @@
 local RunService = game:GetService("RunService")
 local ZombieFolder = workspace:WaitForChild("Zombies")
-local remoteEvent = game:GetService("ReplicatedStorage"):WaitForChild("DamageRemote")
+local remoteEvent = game:GetService("ReplicatedStorage"):WaitForChild("Hit")
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -19,5 +19,5 @@ RunService.Stepped:Connect(function()
             dealDamage(Zombie)
         end
     end
-    task.wait(0.1)
+    task.wait(1)
 end)
