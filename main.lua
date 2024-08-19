@@ -1,38 +1,23 @@
 local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local player = Players.LocalPlayer
+local ZombieFolder = workspace:WaitForChild("Zombies")
+local remoteEvent = game:GetService("ReplicatedStorage"):WaitForChild("DamageRemote")
+local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local auraRadius = 10
 
-local Remotes = ReplicatedStorage:WaitForChild("Remotes")
-local GibRemote = Remotes:WaitForChild("Gib")
-
-local function autoKill()
-    if not character or not character:FindFirstChild("HumanoidRootPart") then return end
-
-    local zombiesFolder = workspace:FindFirstChild("Zombies")
-    if zombiesFolder then
-        for _, Agent in pairs(zombiesFolder:GetChildren()) do
-            if Agent:IsA("Model") and Agent:FindFirstChild("Humanoid") and Agent:FindFirstChild("HumanoidRootPart") then
-                local humanoid = Agent.Humanoid
-                local agentPosition = Agent.HumanoidRootPart.Position
-                local distance = (character.HumanoidRootPart.Position - agentPosition).Magnitude
-
-                if distance <= auraRadius then
-                    local args = {
-                        player.Name,
-                        Agent,
-                        "Right Arm",
-                        agentPosition,
-                        Agent.HumanoidRootPart.CFrame.LookVector
-                    }
-                    GibRemote:FireServer(unpack(args))
-                end
-            end
+local function dealDamage(Zombie)
+    if Zombie:FindFirstChild("Humanoid") and Zombie:FindFirstChild("HumanoidRootPart") then
+        local distance = (character.HumanoidRootPart.Position - Zombie.HumanoidRootPart.Position).Magnitude
+        if distance <= 10 then
+            remoteEvent:FireServer(Zombie)
         end
     end
 end
 
-RunService.RenderStepped:Connect(autoKill)
+RunService.Stepped:Connect(function()
+    for _, Zombie in ipairs(ZombieFolder:GetChildren()) do
+        if Zombie:IsA("Model") and Zombie.Name == "Agent" then
+            dealDamage(Zombie)
+        end
+    end
+    task.wait(0.1)
+end)
